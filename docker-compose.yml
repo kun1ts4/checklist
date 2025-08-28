@@ -1,6 +1,8 @@
 services:
   api:
-    build: ./api/Dockerfile
+    build:
+      context: ./api
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     depends_on:
@@ -8,7 +10,9 @@ services:
         condition: service_healthy
 
   db:
-    build: ./db/Dockerfile
+    build:
+      context: ./db
+      dockerfile: Dockerfile
     ports:
       - "50051:50051"
     depends_on:

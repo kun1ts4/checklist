@@ -3,7 +3,7 @@ WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o db ./main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o db ./cmd/main.go
 
 FROM alpine:3.22
 WORKDIR /app
