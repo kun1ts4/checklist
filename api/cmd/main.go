@@ -30,7 +30,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Secure())
 	e.Use(middleware.CORS())
-	
+
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.POST("/create", handler.CreateTask)
