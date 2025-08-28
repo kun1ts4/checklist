@@ -1,0 +1,129 @@
+basePath: /
+definitions:
+  types.CompleteTaskRequest:
+    properties:
+      id:
+        type: string
+    type: object
+  types.CreateTaskRequest:
+    properties:
+      text:
+        type: string
+    type: object
+  types.DeleteTaskRequest:
+    properties:
+      id:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  title: Checklist API
+  version: 0.1.1
+paths:
+  /create:
+    post:
+      consumes:
+      - application/json
+      description: Создаёт новую задачу
+      parameters:
+      - description: Данные задачи
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Создать задачу
+      tags:
+      - tasks
+  /delete:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет задачу по указанному ID
+      parameters:
+      - description: ID задачи для удаления
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/types.DeleteTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Удалить задачу
+      tags:
+      - tasks
+  /done:
+    put:
+      consumes:
+      - application/json
+      description: Отмечает задачу как выполненную
+      parameters:
+      - description: ID задачи для завершения
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/types.CompleteTaskRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Завершить задачу
+      tags:
+      - tasks
+  /list:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает список всех задач
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Получить список задач
+      tags:
+      - tasks
+swagger: "2.0"
