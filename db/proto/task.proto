@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package task;
+
+option go_package = "github.com/kun1ts4/checklist/db/gen";
+
+service TaskService{
+  rpc CreateTask(CreateTaskRequest) returns (TaskResponse);
+  rpc GetTasks(GetTaskRequest) returns (GetTasksResponse);
+  rpc CompleteTask(CompleteTaskRequest) returns (TaskResponse);
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse);
+}
+
+message CreateTaskRequest{
+  string text = 1;
+}
+
+message TaskResponse{
+  string id = 1;
+  string text = 2;
+  bool is_done = 3;
+}
+
+message GetTaskRequest{}
+
+message GetTasksResponse{
+  repeated TaskResponse tasks = 1;
+}
+
+message CompleteTaskRequest{
+  string id = 1;
+}
+
+message DeleteTaskRequest{
+  string id = 1;
+}
+
+message DeleteTaskResponse{
+  bool success = 1;
+}

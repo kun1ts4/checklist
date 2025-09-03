@@ -3,7 +3,12 @@ package main
 import (
 	"context"
 	"github.com/kun1ts4/checklist/db/internal"
+	server "github.com/kun1ts4/checklist/db/internal/grpc"
+	"github.com/kun1ts4/checklist/db/internal/service"
+	gen "github.com/kun1ts4/checklist/db/proto"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
+	"net"
 	"os"
 )
 
@@ -41,4 +46,25 @@ func main() {
 	}
 
 	logrus.Info("db migrated")
+
+	taskService := service.NewTaskService(db)
+	taskServer := server.NewServer(taskService)
+
+	lis, err := net.Listen("tcp", ":50051")
+	if err != nil {
+		logrus.Fatal(err)
+	}
+
+	grpcServer := grpc.NewServer()
+
+	gen.RegisterTaskServiceServer(grpcServer, taskServer)
+
+	err = grpcServer.Serve(lis)
+	if err != nil {
+		logrus.WithFields(logrus.Fields{
+			"message": "grpc server failed",
+			"error":   err,
+		})
+		return
+	}
 }
